@@ -61,7 +61,13 @@ pub fn Pkg(path: []const u8) type {
             if (target.isWindows()) {
                 freetype.addCSourceFile(path ++ "/builds/windows/ftsystem.c", &freetypeFlags);
             } else if (target.isLinux()) {
-                freetype.addCSourceFile(path ++ "/builds/unix/ftsystem.c", &freetypeFlags);
+                // const flags =
+                const flags = freetypeFlags ++ [_][]const u8{
+                    "-DHAVE_FCNTL_H",
+                    "-DHAVE_UNISTD_H",
+                };
+
+                freetype.addCSourceFile(path ++ "/builds/unix/ftsystem.c", &flags);
             } else {
                 freetype.addCSourceFile(path ++ "/src/base/ftsystem.c", &freetypeFlags);
             }
@@ -69,6 +75,9 @@ pub fn Pkg(path: []const u8) type {
             if (!target.isWindows()) {
                 freetype.addCSourceFile(path ++ "/src/base/ftdebug.c", &freetypeFlags);
             }
+
+            // // if (target.isLinux()) {
+            // }
 
             return freetype;
         }
