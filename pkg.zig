@@ -60,6 +60,7 @@ pub fn Pkg(path: []const u8) type {
 
             if (target.isWindows()) {
                 freetype.addCSourceFile(path ++ "/builds/windows/ftsystem.c", &freetypeFlags);
+                freetype.addCSourceFile(path ++ "/builds/windows/ftdebug.c", &freetypeFlags);
             } else if (target.isLinux()) {
                 // const flags =
                 const flags = freetypeFlags ++ [_][]const u8{
